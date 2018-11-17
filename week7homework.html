@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+    <title>wekk7H</title>
+</head>
+
+<body>
+        <button data-animal="cat">meow</button>
+        <button data-animal="dog">woof</button>
+        <button data-animal="bird">chirp</button>
+        <div id="gifs-appear-here">
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script type="text/javascript">
+     
+          $("button").on("click", function() {
+      
+            var animal = $(this).attr("data-animal");
+      
+       
+            var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
+              animal + "&api_key=dc6zaTOxFJmzC&limit=10";
+      
+         
+            $.ajax({
+              url: queryURL,
+              method: "GET"
+            })
+           
+              .then(function(response) {
+                console.log(queryURL);
+                console.log(response);
+                var results = response.data;
+                for (var i = 0; i < results.length; i++) {
+                  var animalDiv = $("<div>");
+
+                    //poner info del texto
+                  var p = $("<p>").text("Rating: " + results[i].rating);
+                 
+      
+                  var animalImage = $("<img>");
+                  // queria poner 480w_still pero no funciona
+                  animalImage.attr("src", results[i].images.preview_gif.url);
+
+                  animalDiv.append(p);
+                  animalDiv.append(animalImage);
+                  $("#gifs-appear-here").prepend(animalDiv);
+               
+                }
+              });
+          });
+
+
+//pause on click
+ $("<gif>").on("click", function() {
+
+    var state = $(this).attr("data-state");
+    if (state === "still") {
+        $(this).attr("src", $(this).attr("data-animate"));
+        $(this).attr("data-state", "animate");
+      } else {
+        $(this).attr("src", $(this).attr("data-still"));
+        $(this).attr("data-state", "still");
+      }
+ });
+     
+
+            //then tell me what ya gonna do
+            //a function that opens the response api section
+            //make variable for images
+            //connect images with the gifs
+            //make variable so  qualities don't add up exponentially
+
+            /*                .then(function (response) {
+            
+                                var dogGif = $("<img>");
+                                dogGif.attr("src", response.data.image_original_url);
+                                dogGif.attr("alt", $("<img>"));
+                                $("#container").prepend(dogGif);
+            
+                            });*/
+
+
+            </script>
+</body>
+
+</html>
